@@ -1,0 +1,85 @@
+<div class="container mt-4">
+  <h3 class="mb-3">Recherche par nom</h3>
+
+  <h5>1. Avec l'événement keyup</h5>
+  <div class="col-sm-5 mb-3">
+    <label class="form-label">Nom du musicien</label>
+    <input class="form-control" #nomKeyup (keyup)="onKeyUp(nomKeyup.value)">
+  </div>
+
+  <div class="card shadow mb-5">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Instrument</th>
+            <th>Date de naissance</th>
+            <th>Genre</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (m of musiciansKeyup; track m.idMusician) {
+            <tr>
+              <td>{{ m.idMusician }}</td>
+              <td>{{ m.nom }}</td>
+              <td>{{ m.instrument }}</td>
+              <td>{{ m.dateNaissance | date: 'dd/MM/yyyy' }}</td>
+              @if (m.genre) {
+                <td>{{ m.genre.nomGenre }}</td>
+              } @else {
+                <td>PAS DE GENRE</td>
+              }
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="text-center">Aucun musicien trouvé</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h5>2. Avec un pipe</h5>
+  <div class="col-sm-5 mb-3">
+    <label class="form-label">Nom du musicien</label>
+    <input class="form-control" name="searchTerm" [(ngModel)]="searchTerm">
+  </div>
+
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Instrument</th>
+            <th>Date de naissance</th>
+            <th>Genre</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (m of musicians | searchFilter: searchTerm; track m.idMusician) {
+            <tr>
+              <td>{{ m.idMusician }}</td>
+              <td>{{ m.nom }}</td>
+              <td>{{ m.instrument }}</td>
+              <td>{{ m.dateNaissance | date: 'dd/MM/yyyy' }}</td>
+              @if (m.genre) {
+                <td>{{ m.genre.nomGenre }}</td>
+              } @else {
+                <td>PAS DE GENRE</td>
+              }
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="text-center">Aucun musicien trouvé</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
